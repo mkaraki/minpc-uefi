@@ -51,34 +51,22 @@ void genChar_T(unsigned short *from, char_t *to, int len)
 
 void commandHandler(char_t *verb, char_t *arg)
 {
-    char_t v_help[5];
-    genChar_T(L"help", v_help, 5);
-
-    char_t v_exit[5];
-    genChar_T(L"exit", v_exit, 5);
-
-    char_t v_clear[6];
-    genChar_T(L"clear", v_clear, 6);
-
-    char_t v_echo[5];
-    genChar_T(L"echo", v_echo, 5);
-
-    if (strcmp(verb, v_help) == 0)
+    if (strcmp(verb, CL("help")) == 0)
     {
         printf("help\n");
         printf("help    This help\n");
         printf("exit    Exit minpc\n");
     }
-    else if (strcmp(verb, v_exit) == 0)
+    else if (strcmp(verb, CL("exit")) == 0)
     {
         printf("Ok.");
         BS->Exit(IM, 0, 0, L"User put exit command");
     }
-    else if (strcmp(verb, v_clear) == 0)
+    else if (strcmp(verb, CL("clear")) == 0)
     {
         ST->ConOut->ClearScreen(ST->ConOut);
     }
-    else if (strcmp(verb, v_echo) == 0)
+    else if (strcmp(verb, CL("echo")) == 0)
     {
         printf("%s", arg);
     }
