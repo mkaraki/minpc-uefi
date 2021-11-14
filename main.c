@@ -22,6 +22,54 @@ void readLine(char_t *c, int lim)
     }
 }
 
+int getCommandVerb(char_t *source, char_t *verb, int searchLen, int *argpos)
+{
+    for (int i = 0; i < searchLen; i++)
+    {
+        if (source[i] == L' ')
+        {
+            *(verb + i) = 0;
+            *argpos = i + 1;
+            return 1;
+        }
+        *(verb + i) = source[i];
+    }
+    return 0;
+}
+
+void genChar_T(unsigned short *from, char_t *to, int len)
+{
+    for (int i = 0; i < len; i++)
+    {
+        *(to + i) = (char_t)from[i];
+    }
+}
+
+void commandHandler(char_t *verb, char_t *arg)
+{
+    char_t v_help[5];
+    genChar_T(L"help", v_help, 5);
+
+    char_t v_exit[5];
+    genChar_T(L"exit", v_exit, 5);
+
+    if (strcmp(verb, v_help) == 0)
+    {
+        printf("help\n");
+        printf("help    This help\n");
+        printf("exit    Exit minpc\n");
+    }
+    else if (strcmp(verb, v_exit) == 0)
+    {
+        printf("Ok.");
+        BS->Exit(IM, 0, 0, L"User put exit command");
+    }
+    else
+    {
+        printf("Unknown command\n");
+    }
+}
+
 int main(int argc, char **argv)
 {
     ST->ConOut->ClearScreen(ST->ConOut);
@@ -29,9 +77,14 @@ int main(int argc, char **argv)
     while (1)
     {
         char_t txt[100];
+        char_t verb[32];
+        int argpos = 0;
         printf("> ");
         readLine(txt, 100);
-        printf(txt);
+        getCommandVerb(txt, verb, 32, &argpos);
+        char_t arg[100];
+        strcpy(arg, txt + argpos);
+        commandHandler(verb, arg);
         printf("\n");
     }
     return 0;
