@@ -1,0 +1,6 @@
+{
+    "git.detectSubmodules": false,
+    "git.ignoredRepositories": [
+        "posix-uefi"
+    ]
+}
