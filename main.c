@@ -2,6 +2,8 @@
 
 void readLine(char_t *c, int lim)
 {
+    ST->ConOut->EnableCursor(ST->ConOut, 1);
+
     for (int i = 0; i < lim; i++)
     {
         int chr = getchar();
@@ -20,6 +22,8 @@ void readLine(char_t *c, int lim)
         }
         *(c + i) = (char_t)chr;
     }
+
+    ST->ConOut->EnableCursor(ST->ConOut, 0);
 }
 
 int getCommandVerb(char_t *source, char_t *verb, int searchLen, int *argpos)
@@ -53,6 +57,12 @@ void commandHandler(char_t *verb, char_t *arg)
     char_t v_exit[5];
     genChar_T(L"exit", v_exit, 5);
 
+    char_t v_clear[6];
+    genChar_T(L"clear", v_clear, 6);
+
+    char_t v_echo[5];
+    genChar_T(L"echo", v_echo, 5);
+
     if (strcmp(verb, v_help) == 0)
     {
         printf("help\n");
@@ -63,6 +73,14 @@ void commandHandler(char_t *verb, char_t *arg)
     {
         printf("Ok.");
         BS->Exit(IM, 0, 0, L"User put exit command");
+    }
+    else if (strcmp(verb, v_clear) == 0)
+    {
+        ST->ConOut->ClearScreen(ST->ConOut);
+    }
+    else if (strcmp(verb, v_echo) == 0)
+    {
+        printf("%s", arg);
     }
     else
     {
