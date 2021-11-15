@@ -70,6 +70,11 @@ void commandHandler(char_t *verb, char_t *arg)
     {
         printf("%s", arg);
     }
+    else if (strcmp(verb, CL("tty")) == 0)
+    {
+        FILE *f = fopen(CL("/dev/serial9600"), CL("w"));
+        fwrite(arg, 1, strlen(arg), f);
+    }
     else
     {
         printf("Unknown command\n");
